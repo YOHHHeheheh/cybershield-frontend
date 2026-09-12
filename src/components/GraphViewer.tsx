@@ -13,7 +13,7 @@ interface GraphViewerProps {
 export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewerProps) {
   const cyRef = useRef<cytoscape.Core | null>(null);
 
-  const stylesheet: cytoscape.Stylesheet[] = [
+  const stylesheet: any[] = [
     {
       selector: "node",
       style: {
