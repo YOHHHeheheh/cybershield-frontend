@@ -84,14 +84,24 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
       const cy = cyRef.current;
       
       // Re-run layout when elements change
-      cy.layout({
-        name: "cose",
-        animate: true,
-        animationDuration: 800,
-        nodeRepulsion: () => 4000,
-        idealEdgeLength: () => 60,
-        edgeElasticity: () => 0.1,
-      }).run();
+      const isMassive = elements.length > 200;
+      cy.layout(
+        isMassive
+          ? {
+              name: "concentric",
+              animate: false,
+              spacingFactor: 2.5,
+              minNodeSpacing: 50,
+            }
+          : {
+              name: "cose",
+              animate: true,
+              animationDuration: 800,
+              nodeRepulsion: () => 8000,
+              idealEdgeLength: () => 60,
+              edgeElasticity: () => 0.1,
+            }
+      ).run();
 
       // Setup event listeners once
       cy.on('dblclick', 'node', (evt) => {
@@ -112,6 +122,9 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
           style={{ width: "100%", height: "100%" }}
           cy={(cy) => { cyRef.current = cy; }}
           wheelSensitivity={0.2}
+          hideEdgesOnViewport={true}
+          textureOnViewport={true}
+          pixelRatio={1}
         />
       </div>
     </div>

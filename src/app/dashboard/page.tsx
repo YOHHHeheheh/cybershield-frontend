@@ -169,8 +169,7 @@ export default function DashboardPage() {
       </aside>
 
       {/* ── Main Canvas ── */}
-      <main className="flex-1 relative">
-        <VideoBackground src={VIDEO_URL} />
+      <main className="flex-1 relative bg-black">
         
         {elements.length === 0 && !isLoading && !hasSearched ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 z-20 pointer-events-none drop-shadow-2xl">
