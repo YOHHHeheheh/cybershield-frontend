@@ -91,10 +91,10 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
       const cy = cyRef.current;
       
       // Re-run layout when elements change
-      const isMassive = elements.length > 200;
       cy.layout({
         name: "fcose",
-        animate: false, // Instant render to prevent lag
+        animate: true, // Re-enable animation as requested
+        animationDuration: 3500, // Slow, cinematic 3.5s expansion
         randomize: true, 
         quality: "proof", // Higher quality physical simulation
         nodeRepulsion: () => 450000, // MASSIVE repulsion to push nodes far apart
