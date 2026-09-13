@@ -65,7 +65,7 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
         "line-color": "#334155",
         "target-arrow-color": "#334155",
         "target-arrow-shape": "triangle",
-        "curve-style": "bezier",
+        "curve-style": "straight", // Prevents massive bezier loops for parallel edges
         "opacity": 0.6,
       } as any,
     },
@@ -94,12 +94,14 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
       const isMassive = elements.length > 200;
       cy.layout({
         name: "fcose",
-        animate: !isMassive, // disable animation for massive graphs to avoid lag
-        animationDuration: 800,
-        randomize: true, // extremely important: otherwise they clump at (0,0)
-        nodeRepulsion: () => 8000,
-        idealEdgeLength: () => 60,
-        edgeElasticity: () => 0.1,
+        animate: false, // Instant render to prevent lag
+        randomize: true, 
+        quality: "proof", // Higher quality physical simulation
+        nodeRepulsion: () => 450000, // MASSIVE repulsion to push nodes far apart
+        idealEdgeLength: () => 150, // Longer edges to spread the web
+        edgeElasticity: () => 0.45,
+        gravity: 0.1, // Low gravity so the graph can expand outwards freely
+        numIter: 2500, // Enough iterations to settle the physics
       }).run();
 
       // Setup event listeners once
