@@ -85,8 +85,10 @@ export default function DashboardPage() {
             <ShieldAlert className="w-6 h-6 text-blue-400" />
           </div>
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-white">SpiderNet</h1>
-            <p className="text-xs text-slate-400 uppercase tracking-widest">LE-S Core Engine</p>
+            <a href="/" className="hover:opacity-80 transition-opacity block">
+              <h1 className="text-xl font-bold tracking-tight text-white">SpiderNet</h1>
+              <p className="text-xs text-slate-400 uppercase tracking-widest">LE-S Core Engine</p>
+            </a>
           </div>
         </div>
 

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 const NAV_LINKS = [
+  { label: "Dashboard",    href: "/dashboard" },
   { label: "Threats",      href: "#threats"   },
   { label: "Incidents",    href: "#incidents"  },
   { label: "Assets",       href: "#assets"     },
