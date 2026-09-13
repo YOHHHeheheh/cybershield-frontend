@@ -85,23 +85,14 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
       
       // Re-run layout when elements change
       const isMassive = elements.length > 200;
-      cy.layout(
-        isMassive
-          ? {
-              name: "concentric",
-              animate: false,
-              spacingFactor: 2.5,
-              minNodeSpacing: 50,
-            }
-          : {
-              name: "cose",
-              animate: true,
-              animationDuration: 800,
-              nodeRepulsion: () => 8000,
-              idealEdgeLength: () => 60,
-              edgeElasticity: () => 0.1,
-            }
-      ).run();
+      cy.layout({
+        name: "cose",
+        animate: !isMassive, // disable animation for massive graphs
+        animationDuration: 800,
+        nodeRepulsion: () => 8000,
+        idealEdgeLength: () => 60,
+        edgeElasticity: () => 0.1,
+      }).run();
 
       // Setup event listeners once
       cy.on('dblclick', 'node', (evt) => {
