@@ -4,6 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 const CytoscapeComponent = dynamic(() => import("react-cytoscapejs"), { ssr: false });
 import cytoscape from "cytoscape";
+import fcose from "cytoscape-fcose";
+
+if (typeof window !== "undefined") {
+  try {
+    cytoscape.use(fcose);
+  } catch (e) {}
+}
 
 interface GraphViewerProps {
   elements: any[];
@@ -86,9 +93,10 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
       // Re-run layout when elements change
       const isMassive = elements.length > 200;
       cy.layout({
-        name: "cose",
-        animate: !isMassive, // disable animation for massive graphs
+        name: "fcose",
+        animate: !isMassive, // disable animation for massive graphs to avoid lag
         animationDuration: 800,
+        randomize: true, // extremely important: otherwise they clump at (0,0)
         nodeRepulsion: () => 8000,
         idealEdgeLength: () => 60,
         edgeElasticity: () => 0.1,
