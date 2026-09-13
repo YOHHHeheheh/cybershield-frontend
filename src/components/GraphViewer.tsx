@@ -93,15 +93,15 @@ export default function GraphViewer({ elements, onNodeDoubleClick }: GraphViewer
       // Re-run layout when elements change
       cy.layout({
         name: "fcose",
-        animate: true, // Re-enable animation as requested
+        animate: "end", // Computes physics first, THEN animates, preventing browser freeze!
         animationDuration: 3500, // Slow, cinematic 3.5s expansion
         randomize: true, 
-        quality: "proof", // Higher quality physical simulation
-        nodeRepulsion: () => 450000, // MASSIVE repulsion to push nodes far apart
-        idealEdgeLength: () => 150, // Longer edges to spread the web
+        quality: "default", // Lower quality for faster computation
+        nodeRepulsion: () => 450000, 
+        idealEdgeLength: () => 150, 
         edgeElasticity: () => 0.45,
-        gravity: 0.1, // Low gravity so the graph can expand outwards freely
-        numIter: 2500, // Enough iterations to settle the physics
+        gravity: 0.1, 
+        numIter: 1000, // Reduced iterations so the main thread doesn't lock up
       }).run();
 
       // Setup event listeners once
