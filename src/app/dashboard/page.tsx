@@ -198,6 +198,61 @@ export default function DashboardPage() {
             </div>
         </div>
 
+        {/* ── Right Sidebar: Trace Results (Appears after search) ── */}
+        {hasSearched && elements.length > 0 && (
+          <aside className="absolute right-0 top-0 bottom-0 w-80 z-30 backdrop-blur-xl bg-slate-900/70 border-l border-slate-700/50 shadow-[-8px_0_32px_rgba(0,0,0,0.6)] animate-slide-in-right flex flex-col pointer-events-auto">
+            <div className="p-6 border-b border-slate-700/50">
+              <h2 className="text-lg font-bold tracking-widest text-emerald-400 uppercase flex items-center gap-2">
+                <ShieldCheck className="w-5 h-5" />
+                Trace Complete
+              </h2>
+              <p className="text-xs text-slate-400 mt-2 tracking-wide">Intelligence Summary</p>
+            </div>
+            
+            <div className="flex-1 p-6 overflow-y-auto space-y-6">
+               {/* Summary Stats */}
+               <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-black/40 border border-slate-700/50 rounded-lg text-center shadow-inner">
+                    <div className="text-2xl font-mono text-blue-400">{meta?.nodes || 0}</div>
+                    <div className="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Entities</div>
+                  </div>
+                  <div className="p-3 bg-black/40 border border-slate-700/50 rounded-lg text-center shadow-inner">
+                    <div className="text-2xl font-mono text-amber-400">
+                      {elements.filter(e => e.data && e.data.type === 'Person').length}
+                    </div>
+                    <div className="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Suspects</div>
+                  </div>
+               </div>
+
+               {/* Critical Targets */}
+               <div>
+                 <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">High-Risk Targets</h3>
+                 <div className="space-y-2">
+                    {elements.filter(e => e.data && e.data.risk_level === 'CRITICAL' && !e.data.source).slice(0, 5).map(node => (
+                      <div key={node.data.id} className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center justify-between">
+                         <span className="text-sm font-mono text-red-100 truncate pr-2">{node.data.label}</span>
+                         <span className="px-2 py-0.5 bg-red-500 text-white text-[10px] font-bold tracking-widest uppercase rounded">Critical</span>
+                      </div>
+                    ))}
+                    {elements.filter(e => e.data && e.data.risk_level === 'CRITICAL' && !e.data.source).length === 0 && (
+                      <div className="text-xs text-slate-500 italic p-3 border border-slate-700/30 rounded-lg bg-black/20 text-center">
+                        No critical targets flagged yet.<br/>Run Tactical Analytics.
+                      </div>
+                    )}
+                 </div>
+               </div>
+               
+               {/* Action Prompt */}
+               <div className="p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg relative overflow-hidden">
+                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
+                 <p className="text-xs text-blue-200/90 leading-relaxed relative z-10">
+                   Double-click any node on the canvas to deeply expand its localized network, or run <strong className="text-blue-300">Tactical Analytics</strong> to identify hidden chokepoints.
+                 </p>
+               </div>
+            </div>
+          </aside>
+        )}
+
       </main>
 
     </div>
